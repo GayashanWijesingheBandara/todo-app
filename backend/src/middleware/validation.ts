@@ -1,80 +1,41 @@
-import { Task, CreateTaskRequest, ApiResponse } from '../types/task';
+import { Request, Response, NextFunction } from 'express';
+import Joi from 'joi';
 
-// Mock data for demo purposes since backend is not running
-const mockTasks: Task[] = [
-  {
-    id: 1,
-    title: 'Buy books',
-    description: 'Buy books for next school year',
-    completed: false,
-    created_at: new Date(Date.now() - 3600000).toISOString()
-  },
-  {
-    id: 2,
-    title: 'Clean home',
-    description: 'Need to clean the bed room',
-    completed: false,
-    created_at: new Date(Date.now() - 1800000).toISOString()
-  },
-  {
-    id: 3,
-    title: 'Takehome assignment',
-    description: 'Finish the mid-term assignment',
-    completed: false,
-    created_at: new Date(Date.now() - 900000).toISOString()
-  },
-  {
-    id: 4,
-    title: 'Play Cricket',
-    description: 'Play the soft ball cricket match on next Sunday',
-    completed: false,
-    created_at: new Date(Date.now() - 600000).toISOString()
-  },
-  {
-    id: 5,
-    title: 'Help Saman',
-    description: 'Saman need help with his software project',
-    completed: false,
-    created_at: new Date(Date.now() - 300000).toISOString()
+const createTaskSchema = Joi.object({
+  title: Joi.string().min(1).max(100).required().messages({
+    'string.empty': 'Title is required',
+    'string.max': 'Title must be less than 100 characters',
+    'any.required': 'Title is required'
+  }),
+  description: Joi.string().min(1).max(500).required().messages({
+    'string.empty': 'Description is required',
+    'string.max': 'Description must be less than 500 characters',
+    'any.required': 'Description is required'
+  })
+});
+
+export const validateCreateTask = (req: Request, res: Response, next: NextFunction) => {
+  const { error } = createTaskSchema.validate(req.body);
+  
+  if (error) {
+    return res.status(400).json({
+      error: 'Validation failed',
+      details: error.details.map(detail => detail.message)
+    });
   }
-];
+  
+  next();
+};
 
-let taskIdCounter = 6;
-let currentTasks = [...mockTasks];
-
-class ApiService {
-  private delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+export const validateTaskId = (req: Request, res: Response, next: NextFunction) => {
+  const id = parseInt(req.params.id);
+  
+  if (isNaN(id) || id <= 0) {
+    return res.status(400).json({
+      error: 'Invalid task ID'
+    });
   }
-
-  async getTasks(): Promise<Task[]> {
-    await this.delay(300); // Simulate network delay
-    return currentTasks.filter(task => !task.completed).slice(0, 5);
-  }
-
-  async createTask(task: CreateTaskRequest): Promise<Task> {
-    await this.delay(500); // Simulate network delay
-    
-    const newTask: Task = {
-      id: taskIdCounter++,
-      title: task.title,
-      description: task.description,
-      completed: false,
-      created_at: new Date().toISOString()
-    };
-    
-    currentTasks.unshift(newTask);
-    return newTask;
-  }
-
-  async completeTask(id: number): Promise<void> {
-    await this.delay(300); // Simulate network delay
-    
-    const taskIndex = currentTasks.findIndex(task => task.id === id);
-    if (taskIndex !== -1) {
-      currentTasks[taskIndex].completed = true;
-    }
-  }
-}
-
-export const apiService = new ApiService();
+  
+  req.params.id = id.toString();
+  next();
+};
