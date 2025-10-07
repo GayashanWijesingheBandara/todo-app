@@ -1,25 +1,27 @@
-# Use official Node.js LTS image
-FROM node:20-alpine
+# Use Node.js 18 Alpine as base image
+FROM node:18-alpine
 
-# Set working directory inside the container
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /app
 
-# Install dependencies separately to leverage Docker cache
-COPY package.json package-lock.json ./
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the backend source code
+# Copy source code
 COPY . .
 
-# Build TypeScript code
+# Build the application
 RUN npm run build
 
-# Expose backend port
-EXPOSE 5000
+# Expose port
+EXPOSE 3001
 
-# Set environment variables (optional, can also use .env)
-ENV NODE_ENV=production
-ENV PORT=5000
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3001/health || exit 1
 
-# Start the backend
-CMD ["node", "dist/index.js"]
+# Start the application
+CMD ["npm", "start"]

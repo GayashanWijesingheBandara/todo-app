@@ -17,7 +17,7 @@
 // backend/src/index.ts
 import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
-import taskRoutes from "./routes/taskRoutes";
+import taskRoutes from "./routes/tasks";
 
 dotenv.config();
 
