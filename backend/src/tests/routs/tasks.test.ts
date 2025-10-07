@@ -2,6 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import taskRoutes from '../../routes/tasks';
 import { TaskModel } from '../../models/Task';
+import { describe, it } from 'node:test';
 
 // Mock the TaskModel
 jest.mock('../../models/Task');
@@ -177,3 +178,7 @@ describe('Task Routes', () => {
     });
   });
 });
+
+function expect(status: number) {
+  throw new Error('Function not implemented.');
+}

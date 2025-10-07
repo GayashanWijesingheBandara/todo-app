@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+// import { Button } from '@/components/ui/button';
+// import { Card, CardContent } from '@/components/ui/card';
 import { Task } from '../types/task';
+import { Card, CardContent } from './ui/card';
+import { Button } from './ui/button';
 
 interface TaskCardProps {
   task: Task;

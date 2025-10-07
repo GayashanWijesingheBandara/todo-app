@@ -1,3 +1,4 @@
+import { beforeEach } from 'node:test';
 import { Pool } from 'pg';
 
 // Mock database for testing
@@ -23,3 +24,11 @@ beforeEach(() => {
   // Reset mocks before each test
   jest.clearAllMocks();
 });
+
+function beforeAll(arg0: () => Promise<void>) {
+  throw new Error('Function not implemented.');
+}
+function afterAll(arg0: () => Promise<void>) {
+  throw new Error('Function not implemented.');
+}
+

@@ -1,5 +1,6 @@
 import { TaskModel } from '../../models/Task';
 import pool from '../../database/connection';
+import { describe, it } from 'node:test';
 
 // Mock the database pool
 jest.mock('../../database/connection');
@@ -143,3 +144,7 @@ describe('TaskModel', () => {
     });
   });
 });
+
+function expect(result: boolean) {
+  throw new Error('Function not implemented.');
+}

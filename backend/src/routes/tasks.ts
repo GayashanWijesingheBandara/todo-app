@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { TaskModel } from '../models/Task';
+// import { TaskModel } from '../models/Task';
 import { validateCreateTask, validateTaskId } from '../middleware/validation';
+import { TaskModel } from '../models/task';
 
 const router = Router();
 
