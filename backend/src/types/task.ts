@@ -1,14 +1,20 @@
-// backend/src/types/task.ts
 export interface Task {
   id: number;
   title: string;
-  description?: string | null;
+  description: string;
   completed: boolean;
-  createdAt: string;
-  completedAt?: string | null;
+  created_at: Date;
 }
 
-export interface NewTask {
+export interface CreateTaskRequest {
   title: string;
-  description?: string;
+  description: string;
+}
+
+export interface TaskResponse {
+  id: number;
+  title: string;
+  description: string;
+  completed: boolean;
+  created_at: string;
 }
