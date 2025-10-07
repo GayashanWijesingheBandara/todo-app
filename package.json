@@ -1,8 +1,12 @@
 {
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "axios": "^1.12.2",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.544.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/axios": "^0.9.36",
     "@types/pg": "^8.15.5",
     "@types/supertest": "^6.0.3",
     "supertest": "^7.1.4"
